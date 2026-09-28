@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Digital Evidence Timeline Analyzer</title>
+  <meta name="description" content="Chronological digital evidence timeline analyzer and verification report generator.">
+  <meta name="theme-color" content="#000000">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Timeline Analyzer">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Inter typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+  <!-- Ambient Apple Lighting -->
+  <div class="ambient-glow"></div>
+
+  <!-- Main Viewport Container -->
+  <div class="app-container">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="apple-logo-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <div class="header-titles">
+          <h1 class="header-title">Digital Evidence Timeline Analyzer</h1>
+          <p class="header-subtitle">Chronological Event Reconstruction &amp; Evidence Ledger</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <a href="Digital_Evidence_Timeline_Analyzer.exe" download="Digital_Evidence_Timeline_Analyzer.exe" class="btn-apple-install" id="btn-install-app" title="Download standalone Windows executable application">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-svg">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download App (.exe)</span>
+        </a>
+        <button type="button" class="btn-apple-secondary" id="btn-export-report" title="Generate clean PDF-ready case report">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-svg">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          <span>View / Export Report</span>
+        </button>
+        <button type="button" class="btn-apple-primary" id="btn-trigger-upload">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-svg">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Add Evidence Files</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Case Information Strip -->
+    <section class="case-info-strip">
+      <div class="case-info-item">
+        <span class="info-label">Case:</span>
+        <span class="info-value editable" id="case-name" contenteditable="true" title="Click to edit case title">Incident Case #01</span>
+      </div>
+      <div class="case-info-divider"></div>
+      <div class="case-info-item">
+        <span class="info-label">Investigator:</span>
+        <span class="info-value editable" id="investigator-name" contenteditable="true" title="Click to edit name">Lead Examiner</span>
+      </div>
+      <div class="case-info-divider"></div>
+      <div class="case-info-item">
+        <span class="info-label">Verification:</span>
+        <span class="status-pill green">
+          <span class="dot"></span>
+          <span>SHA-256 Validated</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- Purpose / How It Works Banner -->
+    <section class="guide-banner">
+      <div class="guide-icon">💡</div>
+      <div class="guide-text">
+        <strong>How it works:</strong> Add your digital evidence files below. The analyzer extracts their <strong>exact original timestamps</strong>, sorts them into a <strong>chronological event timeline</strong>, calculates their <strong>SHA-256 fingerprints</strong>, and generates a neat, professional investigation report.
+      </div>
+    </section>
+
+    <!-- Metrics Row -->
+    <section class="metrics-row">
+      <div class="metric-box">
+        <span class="metric-heading">Total Evidence Files</span>
+        <div class="metric-number" id="metric-total-files">0</div>
+        <span class="metric-detail" id="metric-files-sub">Awaiting files</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-heading">Chronological Span</span>
+        <div class="metric-number text-medium" id="metric-span-range">No events yet</div>
+        <span class="metric-detail" id="metric-span-sub">Earliest to Latest event</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-heading">Cryptographic Integrity</span>
+        <div class="metric-number text-green" id="metric-integrity-pct">100%</div>
+        <span class="metric-detail">Tamper-Proof Ledger</span>
+      </div>
+    </section>
+
+    <!-- Hidden File Picker -->
+    <input type="file" id="file-input" multiple style="display: none;">
+
+    <!-- Drop Zone -->
+    <section class="drop-zone" id="drop-zone">
+      <div class="drop-zone-content">
+        <div class="drop-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="12" y1="18" x2="12" y2="12"></line>
+            <line x1="9" y1="15" x2="12" y2="12"></line>
+            <line x1="15" y1="15" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <h2 class="drop-title">Drop Digital Evidence Files Here</h2>
+        <p class="drop-subtitle">
+          Supports photos, videos, audio, PDFs, documents, screenshots, and logs. (Duplicates automatically detected).
+        </p>
+        <div class="drop-action-buttons">
+          <button type="button" class="btn-apple-secondary" id="btn-browse-files">Browse Files</button>
+          <button type="button" class="btn-ghost" id="btn-demo-scenario">+ Load Example Timeline (Demo)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toolbar: Search & Order -->
+    <section class="timeline-toolbar">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="search-icon">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="timeline-search" placeholder="Search filenames, timestamps, or notes..." autocomplete="off">
+      </div>
+
+      <div class="toolbar-controls">
+        <div class="order-toggle">
+          <button type="button" class="btn-order active" id="sort-asc" title="Order from earliest event to latest">Oldest First (Chronological)</button>
+          <button type="button" class="btn-order" id="sort-desc" title="Order from newest to oldest">Newest First</button>
+        </div>
+        <button type="button" class="btn-danger-link" id="btn-clear-all">Clear All</button>
+      </div>
+    </section>
+
+    <!-- Processing Indicator -->
+    <div class="processing-bar" id="processing-bar" style="display: none;">
+      <div class="processing-spinner"></div>
+      <span id="processing-text">Reading file timestamp &amp; calculating cryptographic hash...</span>
+    </div>
+
+    <!-- Timeline Workspace -->
+    <main class="timeline-wrapper">
+
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon-shield">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <h3 class="empty-title">No Evidence Files on the Timeline Yet</h3>
+        <p class="empty-desc">
+          Drop files above or click <strong>Load Example Timeline</strong> to see the chronological reconstruction in action.
+        </p>
+      </div>
+
+      <!-- Chronological Evidence Track -->
+      <div class="timeline-track" id="timeline-track" style="display: none;">
+        <!-- Evidence items are dynamically inserted here -->
+      </div>
+
+    </main>
+
+    <!-- Apple Toast -->
+    <div class="apple-toast" id="apple-toast">
+      <div class="toast-dot"></div>
+      <span class="toast-msg" id="toast-msg">Evidence added</span>
+    </div>
+
+  </div> <!-- End of .app-container -->
+
+  <!-- Executive Report Modal (Positioned outside app-container for flawless printing) -->
+  <div class="modal-overlay" id="report-modal" aria-hidden="true">
+    <div class="report-modal-dialog">
+      <div class="report-modal-header">
+        <div class="report-modal-titles">
+          <span class="modal-eyebrow">Digital Forensics Evidence Ledger</span>
+          <h2 class="modal-title">Official Case Timeline Report</h2>
+        </div>
+        <div class="report-modal-actions">
+          <button type="button" class="btn-apple-primary" id="btn-print-report">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-svg"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>Download PDF / Print</span>
+          </button>
+          <button type="button" class="btn-close" id="btn-close-report" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="report-body">
+        <div id="report-print-area">
+          <!-- Dynamically populated clean report -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

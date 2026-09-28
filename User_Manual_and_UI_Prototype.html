@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Evidence Timeline Analyzer - User Manual & UI Prototype Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0071e3;
+      --primary-hover: #0077ed;
+      --accent: #30d158;
+      --danger: #ff453a;
+      --warning: #ff9f0a;
+      --bg-page: #f5f5f7;
+      --bg-card: #ffffff;
+      --text-main: #1d1d1f;
+      --text-muted: #6e6e73;
+      --border-subtle: #d2d2d7;
+      --border-light: #e5e5ea;
+      --badge-bg: #e8e8ed;
+      --mono-font: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+
+    /* Top Sticky Action Bar (Hidden on print) */
+    .top-action-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .brand-title {
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-badge {
+      background: #111;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .btn-pdf-print {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 6px rgba(0, 113, 227, 0.3);
+      transition: all 0.2s ease;
+    }
+    .btn-pdf-print:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Container */
+    .manual-container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* Header Hero */
+    .doc-header {
+      background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%);
+      color: #ffffff;
+      padding: 40px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-header::after {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 113, 227, 0.35) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .doc-header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .doc-header p {
+      color: #a1a1a6;
+      font-size: 15px;
+      max-width: 650px;
+    }
+    .doc-meta-tags {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tag-chip {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #e5e5ea;
+    }
+
+    /* Section Styling */
+    .manual-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .section-num {
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Prototype Visual Showcase */
+    .prototype-frame {
+      background: #111113;
+      border-radius: 14px;
+      padding: 20px;
+      color: #f5f5f7;
+      margin: 20px 0;
+      border: 1px solid #333;
+      position: relative;
+    }
+    .prototype-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #86868b;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Callout Badges (Numbered markers) */
+    .marker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ff3b30;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px #ffffff;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    /* Mockup Header */
+    .mock-header {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .mock-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .mock-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    .mock-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .mock-btn.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    .mock-btn.download {
+      background: rgba(50, 215, 75, 0.15);
+      border-color: rgba(50, 215, 75, 0.4);
+      color: #30d158;
+    }
+
+    /* Mock Info Strip */
+    .mock-strip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 11px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    /* Mock Metrics */
+    .mock-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .mock-metric-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .mock-metric-title {
+      font-size: 10px;
+      color: #888;
+      text-transform: uppercase;
+    }
+    .mock-metric-val {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    /* Mock Drop Zone */
+    .mock-dropzone {
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Mock Card */
+    .mock-evidence-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+    .mock-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+    .mock-hash-box {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: var(--mono-font);
+      font-size: 10px;
+      color: #30d158;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+    table.guide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    table.guide-table th {
+      background: #f0f0f4;
+      color: #333;
+      padding: 10px 14px;
+      font-weight: 700;
+      border-bottom: 2px solid var(--border-subtle);
+    }
+    table.guide-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+    table.guide-table tr:hover {
+      background: #fafafc;
+    }
+    .element-name {
+      font-weight: 600;
+      color: #000;
+    }
+    .keyboard-badge {
+      display: inline-block;
+      background: #e5e5ea;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--mono-font);
+      font-size: 11px;
+      border: 1px solid #d1d1d6;
+    }
+
+    /* Workflow Cards */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .workflow-step {
+      background: #fbfbfd;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .step-num {
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .step-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Print-specific layout */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11px;
+        padding-bottom: 0;
+      }
+      .top-action-bar {
+        display: none !important;
+      }
+      .manual-container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .doc-header {
+        background: #222 !important;
+        color: #fff !important;
+        padding: 20px !important;
+        margin-bottom: 15px;
+        border-radius: 8px;
+      }
+      .doc-header h1 {
+        font-size: 20px;
+      }
+      .manual-section {
+        border: 1px solid #ccc !important;
+        border-radius: 6px;
+        padding: 16px !important;
+        margin-bottom: 14px !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .prototype-frame {
+        background: #1c1c1e !important;
+        color: #fff !important;
+        border: 1px solid #444 !important;
+        padding: 12px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      table.guide-table th {
+        background: #eee !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .marker {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Floating Bar (Print / Save as PDF) -->
+  <aside class="top-action-bar">
+    <div class="brand-title">
+      <span>Digital Evidence Timeline Analyzer</span>
+      <span class="brand-badge">Full Manual &amp; UI Prototype</span>
+    </div>
+    <div>
+      <button class="btn-pdf-print" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span>Print / Save as PDF</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="manual-container">
+
+    <!-- Document Header -->
+    <header class="doc-header">
+      <h1>User Operation Guide &amp; UI Prototype</h1>
+      <p>A comprehensive reference manual detailing how to launch, operate, and master all buttons, controls, and forensic functions of the Digital Evidence Timeline Analyzer.</p>
+      <div class="doc-meta-tags">
+        <span class="tag-chip">NIST SP 800-86 Compliant</span>
+        <span class="tag-chip">Dual SHA-256 Hashing</span>
+        <span class="tag-chip">Chronological Event Reconstruction</span>
+        <span class="tag-chip">100% Client-Side Privacy</span>
+      </div>
+    </header>
+
+    <!-- SECTION 1: How to Launch -->
+    <section class="manual-section">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        How to Launch the Web Application
+      </h2>
+      <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 16px;">
+        The system can be launched in three flexible ways depending on whether you want an offline desktop application or a browser-based forensic workspace.
+      </p>
+
+      <div class="workflow-grid">
+        <div class="workflow-step">
+          <span class="step-num">Method A (Recommended)</span>
+          <h3 class="step-title">1-Click Batch Launcher</h3>
+          <p class="step-desc">
+            Double-click <strong style="color: #000;">run_app.bat</strong> inside the project folder. This spins up the local server on port 8000 and automatically opens your default browser at <code class="keyboard-badge">http://localhost:8000</code>.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <span class="step-num">Method B</span>
+          <h3 class="step-title">Native App Window (Python)</h3>
+          <p class="step-desc">
+            Run <code class="keyboard-badge">python launch.py</code> in terminal. It searches for Edge/Chrome and opens a dedicated, frameless window mode (<code class="keyboard-badge">--app</code>), providing an authentic desktop app experience.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <span class="step-num">Method C</span>
+          <h3 class="step-title">Direct Browser Open</h3>
+          <p class="step-desc">
+            Double-click <strong style="color: #000;">index.html</strong> directly in Chrome, Edge, or Firefox. The analyzer is fully client-side and requires no external internet or cloud backends.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Visual Prototype & Layout Map -->
+    <section class="manual-section">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        Visual Interface Prototype &amp; Control Map
+      </h2>
+      <p style="color: var(--text-muted); font-size: 13.5px;">
+        Every interactive button and function in the application is numbered in the visual prototype wireframe below and cross-referenced in the inventory table:
+      </p>
+
+      <!-- Interactive Prototype Wireframe -->
+      <div class="prototype-frame">
+        <div class="prototype-label">
+          <span>Digital Evidence Timeline Analyzer - UI Map</span>
+          <span>Screen Layout Architecture</span>
+        </div>
+
+        <!-- Header -->
+        <div class="mock-header">
+          <div class="mock-title">
+            <span class="marker">1</span>
+            <strong>Digital Evidence Timeline Analyzer</strong>
+          </div>
+          <div class="mock-buttons">
+            <span class="mock-btn download"><span class="marker">2</span>Download App (.exe)</span>
+            <span class="mock-btn"><span class="marker">3</span>View / Export Report</span>
+            <span class="mock-btn primary"><span class="marker">4</span>+ Add Evidence Files</span>
+          </div>
+        </div>
+
+        <!-- Case Strip -->
+        <div class="mock-strip">
+          <div><span class="marker">5</span><strong>Case:</strong> [ Incident Case #01 ✎ ]</div>
+          <div><span class="marker">6</span><strong>Investigator:</strong> [ Lead Examiner ✎ ]</div>
+          <div style="color: #30d158;"><span class="marker">7</span>● SHA-256 Validated</div>
+        </div>
+
+        <!-- Metrics Row -->
+        <div class="mock-metrics">
+          <div class="mock-metric-card">
+            <div class="mock-metric-title"><span class="marker">8</span>Total Files</div>
+            <div class="mock-metric-val">4 Verified</div>
+          </div>
+          <div class="mock-metric-card">
+            <div class="mock-metric-title"><span class="marker">9</span>Chronological Span</div>
+            <div class="mock-metric-val">10:14 AM → 01:45 PM</div>
+          </div>
+          <div class="mock-metric-card">
+            <div class="mock-metric-title"><span class="marker">10</span>Integrity</div>
+            <div class="mock-metric-val" style="color: #30d158;">100% Verified</div>
+          </div>
+        </div>
+
+        <!-- Drop Zone -->
+        <div class="mock-dropzone">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 6px;">
+            <span class="marker">11</span>Drop Digital Evidence Files Here
+          </div>
+          <div style="font-size: 11px; color: #888; margin-bottom: 12px;">Supports Images, CCTV Video, Audio, Word, PDFs, &amp; System Logs</div>
+          <div style="display: flex; justify-content: center; gap: 8px;">
+            <span class="mock-btn"><span class="marker">12</span>Browse Files</span>
+            <span class="mock-btn" style="background: rgba(255,255,255,0.06);"><span class="marker">13</span>+ Load Example Timeline (Demo)</span>
+          </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 12px 0;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="marker">14</span>
+            <span style="font-size: 11px; color: #aaa; background: rgba(255,255,255,0.08); padding: 5px 10px; border-radius: 6px;">🔍 Search filenames, timestamps, or notes...</span>
+          </div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <span class="mock-btn" style="background: #333;"><span class="marker">15</span>Oldest First (Asc)</span>
+            <span class="mock-btn"><span class="marker">16</span>Newest First</span>
+            <span style="font-size: 11px; color: #ff453a; margin-left: 8px; cursor: pointer;"><span class="marker">17</span>Clear All</span>
+          </div>
+        </div>
+
+        <!-- Evidence Card Mockup -->
+        <div class="mock-evidence-card">
+          <div class="mock-card-top">
+            <div>
+              <span class="marker">18</span><strong style="color: #ff9f0a;">#1</strong>
+              <span class="marker">19</span><span style="font-weight: 700; margin-left: 4px;">Wed, Sep 28 at 10:14:22 AM</span>
+              <span style="color: #888; margin-left: 4px;">(3 hours ago)</span>
+            </div>
+            <div>
+              <span class="marker">20</span><span style="color: #ff453a; font-size: 10px; font-weight: 700; border: 1px solid #ff453a; padding: 2px 6px; border-radius: 4px;">Delete</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center; margin: 6px 0;">
+            <span class="marker">21</span>
+            <span style="background: var(--primary); padding: 4px 6px; border-radius: 4px; font-size: 10px; font-weight: bold;">DOCX</span>
+            <div style="font-size: 12px;"><strong>contract_draft_v1.docx</strong> • 139.45 KB</div>
+          </div>
+          <div style="font-size: 11px; color: #bbb; margin-top: 4px;">
+            <span class="marker">22</span>📌 <strong>Event Meaning:</strong> File Created &amp; Saved • <span style="color: #30d158;">✓ Verified Authentic</span>
+          </div>
+          <div class="mock-hash-box">
+            <span><span class="marker">23</span>SHA-256: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08</span>
+            <span class="marker">24</span><span class="mock-btn" style="padding: 2px 8px; font-size: 9px;">Copy</span>
+          </div>
+          <div style="margin-top: 8px; font-size: 10px; color: #888;">
+            <span class="marker">25</span>[ Investigator Note: Initial contract file drafted on workstation ] ✎
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: Complete Button & Control Inventory Table -->
+    <section class="manual-section">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        Complete Button &amp; Function Directory
+      </h2>
+      <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 12px;">
+        Detailed specification of every interactive button, input field, and automated engine function in the application:
+      </p>
+
+      <div class="table-container">
+        <table class="guide-table">
+          <thead>
+            <tr>
+              <th style="width: 45px;">ID</th>
+              <th style="width: 220px;">Button / Control</th>
+              <th style="width: 130px;">Type / Location</th>
+              <th>Function &amp; Forensic Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="marker">1</span></td>
+              <td class="element-name">Header Logo &amp; Brand</td>
+              <td>Top Navigation</td>
+              <td>Identifies the application and NIST SP 800-86 forensic framework compliance.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">2</span></td>
+              <td class="element-name">Download App (.exe)</td>
+              <td>Action Button</td>
+              <td>Allows downloading the standalone compiled Windows desktop application (<code class="keyboard-badge">Digital_Evidence_Timeline_Analyzer.exe</code>).</td>
+            </tr>
+            <tr>
+              <td><span class="marker">3</span></td>
+              <td class="element-name">View / Export Report</td>
+              <td>Modal Trigger Button</td>
+              <td>Opens the official, printable Case Timeline Report modal containing the forensic dossier, chronological ledger, and legal signoff section.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">4</span></td>
+              <td class="element-name">+ Add Evidence Files</td>
+              <td>Primary Button</td>
+              <td>Triggers the operating system native file picker to ingest one or multiple evidence files at once.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">5</span></td>
+              <td class="element-name">Case Name (Editable)</td>
+              <td>ContentEditable Field</td>
+              <td>Click directly on the text to edit the case title (e.g., <em>"Cyber Extortion Case #2026-B"</em>). Automatically saves to browser storage.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">6</span></td>
+              <td class="element-name">Investigator Name (Editable)</td>
+              <td>ContentEditable Field</td>
+              <td>Click directly on the text to change examiner name/badge. Saved persistently and rendered into official signed reports.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">7</span></td>
+              <td class="element-name">Verification Pill</td>
+              <td>Status Indicator</td>
+              <td>Displays real-time cryptographic validity status (SHA-256 Validated).</td>
+            </tr>
+            <tr>
+              <td><span class="marker">8</span></td>
+              <td class="element-name">Total Evidence Files</td>
+              <td>Dynamic Metric</td>
+              <td>Live counter calculating total unique evidence files currently loaded in the investigation timeline.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">9</span></td>
+              <td class="element-name">Chronological Span</td>
+              <td>Temporal Metric</td>
+              <td>Calculates and displays the exact duration from the earliest known digital event to the latest event in the case.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">10</span></td>
+              <td class="element-name">Integrity Status</td>
+              <td>Cryptographic Metric</td>
+              <td>Guarantees 100% hash calculation coverage across all loaded files for chain-of-custody non-repudiation.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">11</span></td>
+              <td class="element-name">Drop Zone Area</td>
+              <td>Drag &amp; Drop Region</td>
+              <td>Allows investigators to drag and drop files from Windows Explorer directly into the browser window.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">12</span></td>
+              <td class="element-name">Browse Files Button</td>
+              <td>Input Trigger</td>
+              <td>Standard file selection dialog for navigating directories and picking files.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">13</span></td>
+              <td class="element-name">Load Example Timeline</td>
+              <td>Demo Generator</td>
+              <td>Populates a 4-stage digital forensics breach demonstration (document creation, CCTV footage, chat screenshot, archive exfiltration) to show the chronological engine in action. Duplicate-protected.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">14</span></td>
+              <td class="element-name">Timeline Search Filter</td>
+              <td>Instant Search Bar</td>
+              <td>Instant keyword filtering across file names, file extensions, exact timestamps, and investigator notes as you type.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">15</span></td>
+              <td class="element-name">Oldest First (Asc)</td>
+              <td>Sort Toggle</td>
+              <td>Standard forensic chronological reconstruction mode (earliest incident event at the top down to latest).</td>
+            </tr>
+            <tr>
+              <td><span class="marker">16</span></td>
+              <td class="element-name">Newest First (Desc)</td>
+              <td>Sort Toggle</td>
+              <td>Reverse chronological mode for inspecting the most recent system activity and files first.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">17</span></td>
+              <td class="element-name">Clear All</td>
+              <td>Danger Action</td>
+              <td>Prompts confirmation to safely reset and clear all evidence files and memory back to clean state.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">18</span></td>
+              <td class="element-name">Sequence Badge (#1, #2...)</td>
+              <td>Ordinal Badge</td>
+              <td>Shows the precise chronological step index of each file in the reconstructed storyline.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">19</span></td>
+              <td class="element-name">Timestamp Hero Badge</td>
+              <td>Temporal Display</td>
+              <td>Displays day, month, year, and exact 12-hour timestamp (down to the second) extracted from file metadata or EXIF headers.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">20</span></td>
+              <td class="element-name">Delete Button</td>
+              <td>Card Action</td>
+              <td>Removes that specific evidence file from the timeline and updates chronological spans immediately.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">21</span></td>
+              <td class="element-name">File Type &amp; Size Block</td>
+              <td>Metadata Display</td>
+              <td>Presents file extension badge (e.g. PNG, DOCX, MP4), exact file name, and human-readable byte sizing.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">22</span></td>
+              <td class="element-name">Event Meaning Tag</td>
+              <td>Context Tag</td>
+              <td>Clarifies whether the timestamp represents a camera capture date (EXIF) or a file save/modification date.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">23</span></td>
+              <td class="element-name">SHA-256 Hash Display</td>
+              <td>Forensic Fingerprint</td>
+              <td>64-character hexadecimal SHA-256 cryptographic digest calculated client-side via Web Crypto API.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">24</span></td>
+              <td class="element-name">Copy Hash Button</td>
+              <td>Clipboard Action</td>
+              <td>Copies the 64-character SHA-256 hash directly to your clipboard for paste verification into external tools.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">25</span></td>
+              <td class="element-name">Investigator Note Box</td>
+              <td>Interactive Input</td>
+              <td>Allows typing case notes directly on each item explaining why this file is significant. Auto-saved in storage.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">26</span></td>
+              <td class="element-name">Download PDF / Print</td>
+              <td>Report Modal Action</td>
+              <td>Invokes the dedicated zero-bleed print engine to export a clean, multi-page legal PDF report ready for court or case filing.</td>
+            </tr>
+            <tr>
+              <td><span class="marker">27</span></td>
+              <td class="element-name">Close Report Modal</td>
+              <td>Modal Close (X)</td>
+              <td>Dismisses the report preview and returns to the active interactive timeline workspace.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Step-by-Step Practical Workflow -->
+    <section class="manual-section">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        Step-by-Step Investigation Workflow
+      </h2>
+      
+      <div class="workflow-grid">
+        <div class="workflow-step">
+          <span class="step-num">Step 01</span>
+          <h3 class="step-title">Configure Case Details</h3>
+          <p class="step-desc">
+            Click on <strong>"Incident Case #01"</strong> and <strong>"Lead Examiner"</strong> at the top to personalize your case number and investigator title. All changes are saved automatically.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <span class="step-num">Step 02</span>
+          <h3 class="step-title">Ingest Evidence</h3>
+          <p class="step-desc">
+            Drag files directly into the dashed drop zone or click <strong>"Browse Files"</strong>. The engine automatically reads the internal metadata, extracts JPEG EXIF camera dates, and skips duplicates.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <span class="step-num">Step 03</span>
+          <h3 class="step-title">Automatic Reconstruction</h3>
+          <p class="step-desc">
+            The analyzer immediately sorts every file in exact chronological order (Oldest First). Review the sequence badges (#1, #2, #3...) to observe how the timeline of events actually unfolded.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <span class="step-num">Step 04</span>
+          <h3 class="step-title">Annotate &amp; Note Findings</h3>
+          <p class="step-desc">
+            Type notes inside the <em>"Add an investigator note..."</em> input field for key files. Explain forensic relevance, suspect identification, or compromised directory locations.
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <span class="step-num">Step 05</span>
+          <h3 class="step-title">Search &amp; Filter</h3>
+          <p class="step-desc">
+            Use the search bar at any time to instantly isolate specific files (e.g., typing <code class="keyboard-badge">.mp4</code> or <code class="keyboard-badge">draft</code> or specific dates).
+          </p>
+        </div>
+
+        <div class="workflow-step">
+          <span class="step-num">Step 06</span>
+          <h3 class="step-title">Export Official PDF Report</h3>
+          <p class="step-desc">
+            Click <strong>"View / Export Report"</strong> at the top right, verify the Case Dossier and Event Ledger, then click <strong>"Download PDF / Print"</strong>. Select <em>"Save as PDF"</em> in your printer dialog.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Forensic Integrity & Privacy Guarantees -->
+    <section class="manual-section">
+      <h2 class="section-title">
+        <span class="section-num">5</span>
+        Forensic Integrity &amp; Security Principles
+      </h2>
+      <ul style="padding-left: 20px; font-size: 13.5px; color: var(--text-main); line-height: 1.8;">
+        <li><strong>Zero Cloud Transmission:</strong> All hashing and metadata extraction occurs locally within the browser sandbox using the W3C Web Cryptography API. No file is ever transmitted over the internet.</li>
+        <li><strong>Cryptographic Non-Repudiation:</strong> SHA-256 hashes ensure that files presented in the final report cannot be altered or repudiated without invalidating the checksum.</li>
+        <li><strong>EXIF Camera Extraction:</strong> When JPEG media from mobile phones or digital cameras is ingested, the engine reads internal Exif headers to prioritize original capture time over filesystem modification time.</li>
+        <li><strong>Duplicate Elimination:</strong> Ingesting identical files multiple times does not contaminate the timeline; the analyzer detects identical filenames, sizes, and timestamps and alerts the user.</li>
+      </ul>
+    </section>
+
+  </main>
+
+</body>
+</html>
