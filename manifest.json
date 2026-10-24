@@ -1,7 +1,7 @@
 {
-  "name": "Digital Evidence Timeline Analyzer",
-  "short_name": "Evidence Timeline",
-  "description": "Chronological Digital Evidence Timeline Reconstruction and Verification",
+  "name": "Forensic Time-Line Reconstruction - Digital Evidence Analyzer",
+  "short_name": "Time-Line Reconstruction",
+  "description": "Forensic Time-Line Reconstruction and Chronological Digital Evidence Analysis Platform",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

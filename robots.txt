@@ -1,0 +1,6 @@
+# robots.txt for https://time-line-reconstruction.vercel.app/
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://time-line-reconstruction.vercel.app/sitemap.xml
