@@ -1,11 +1,12 @@
 // Digital Evidence Timeline Analyzer - Service Worker
-const CACHE_NAME = 'deta-cache-v1';
+const CACHE_NAME = 'deta-cache-v2';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './manifest.json',
+  './favicon.ico',
   './icon-192.png',
   './icon-512.png'
 ];

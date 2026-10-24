@@ -37,9 +37,11 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Time-Line Reconstruction">
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="icon" type="image/x-icon" href="app.ico">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
 
   <!-- Inter typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,6 +79,14 @@
         "url": "https://time-line-reconstruction.vercel.app/",
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "All, Windows, macOS, Linux, Android, iOS",
+        "author": {
+          "@type": "Person",
+          "@id": "https://time-line-reconstruction.vercel.app/#developer"
+        },
+        "creator": {
+          "@type": "Person",
+          "@id": "https://time-line-reconstruction.vercel.app/#developer"
+        },
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -90,6 +100,19 @@
           "SHA-256 & MD5 Cryptographic Integrity",
           "Anti-Forensics & Timestomp Anomaly Detection",
           "NIST SP 800-86 Compliant Official Case Reports"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://time-line-reconstruction.vercel.app/#developer",
+        "name": "Shamyutha Gembali",
+        "jobTitle": "Digital Evidence Forensics Specialist & Lead Software Architect",
+        "honorificSuffix": "M.Sc Forensic Science",
+        "url": "https://time-line-reconstruction.vercel.app/",
+        "image": "https://github.com/shamyutha-ship-it.png",
+        "sameAs": [
+          "https://github.com/shamyutha-ship-it",
+          "https://www.linkedin.com/in/shamyutha-gembali-608461325/"
         ]
       },
       {
@@ -160,10 +183,7 @@
       <div class="header-right">
         <button type="button" class="btn-apple-secondary btn-developer-badge" id="btn-open-developer" title="View Developer Dossier - Shamyutha Gembali (M.Sc Forensic Science)">
           <span class="developer-pulse-dot" aria-hidden="true"></span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-svg">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+          <img src="https://github.com/shamyutha-ship-it.png" alt="Developer Profile" class="header-dev-avatar-thumb" onerror="this.style.display='none';">
           <span class="btn-dev-label">Developer</span>
         </button>
         <a href="Digital_Evidence_Timeline_Analyzer.exe" download="Digital_Evidence_Timeline_Analyzer.exe" class="btn-apple-install" id="btn-install-app" title="Download standalone Windows executable application">
