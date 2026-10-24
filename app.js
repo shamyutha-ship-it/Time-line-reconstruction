@@ -47,6 +47,13 @@ const btnCloseReport = document.getElementById('btn-close-report');
 const btnPrintReport = document.getElementById('btn-print-report');
 const reportPrintArea = document.getElementById('report-print-area');
 
+const developerModal = document.getElementById('developer-modal');
+const btnOpenDeveloper = document.getElementById('btn-open-developer');
+const btnFooterDeveloper = document.getElementById('btn-footer-open-developer');
+const btnCloseDeveloper = document.getElementById('btn-close-developer');
+const btnDismissDeveloper = document.getElementById('btn-dismiss-developer');
+const btnCopyLinkedin = document.getElementById('btn-copy-linkedin');
+
 const appleToast = document.getElementById('apple-toast');
 const toastMsg = document.getElementById('toast-msg');
 let toastTimer = null;
@@ -226,6 +233,61 @@ function setupEventListeners() {
   reportModal.addEventListener('click', (e) => {
     if (e.target === reportModal) closeReportModal();
   });
+
+  // Developer Dossier Modal
+  if (btnOpenDeveloper) btnOpenDeveloper.addEventListener('click', openDeveloperModal);
+  if (btnFooterDeveloper) btnFooterDeveloper.addEventListener('click', openDeveloperModal);
+  if (btnCloseDeveloper) btnCloseDeveloper.addEventListener('click', closeDeveloperModal);
+  if (btnDismissDeveloper) btnDismissDeveloper.addEventListener('click', closeDeveloperModal);
+  if (developerModal) {
+    developerModal.addEventListener('click', (e) => {
+      if (e.target === developerModal) closeDeveloperModal();
+    });
+  }
+
+  // Copy LinkedIn Link with Apple Toast feedback
+  if (btnCopyLinkedin) {
+    btnCopyLinkedin.addEventListener('click', () => {
+      const linkedInUrl = 'https://www.linkedin.com/in/shamyutha-gembali-608461325/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bp0kBY%2B1FS9q0KrFJhJj15g%3D%3D';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(linkedInUrl).then(() => {
+          showToast('LinkedIn profile link copied to clipboard!');
+        }).catch(() => {
+          fallbackCopyText(linkedInUrl);
+        });
+      } else {
+        fallbackCopyText(linkedInUrl);
+      }
+    });
+  }
+
+  // Keyboard Accessibility: Esc closes any open modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (developerModal && developerModal.classList.contains('active')) {
+        closeDeveloperModal();
+      } else if (reportModal && reportModal.classList.contains('active')) {
+        closeReportModal();
+      }
+    }
+  });
+}
+
+function fallbackCopyText(text) {
+  const tempInput = document.createElement('textarea');
+  tempInput.value = text;
+  tempInput.style.position = 'fixed';
+  tempInput.style.opacity = '0';
+  document.body.appendChild(tempInput);
+  tempInput.focus();
+  tempInput.select();
+  try {
+    document.execCommand('copy');
+    showToast('LinkedIn profile link copied to clipboard!');
+  } catch (err) {
+    showToast('Please visit LinkedIn via the connect button');
+  }
+  document.body.removeChild(tempInput);
 }
 
 // Bulletproof dedicated print function (prevents blank pages & modal clipping)
@@ -888,11 +950,32 @@ function openReportModal() {
 
   reportModal.classList.add('active');
   reportModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeReportModal() {
   reportModal.classList.remove('active');
   reportModal.setAttribute('aria-hidden', 'true');
+  if (!developerModal || !developerModal.classList.contains('active')) {
+    document.body.style.overflow = '';
+  }
+}
+
+// Developer Dossier Modal Controls
+function openDeveloperModal() {
+  if (!developerModal) return;
+  developerModal.classList.add('active');
+  developerModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDeveloperModal() {
+  if (!developerModal) return;
+  developerModal.classList.remove('active');
+  developerModal.setAttribute('aria-hidden', 'true');
+  if (!reportModal || !reportModal.classList.contains('active')) {
+    document.body.style.overflow = '';
+  }
 }
 
 // ==========================================================================

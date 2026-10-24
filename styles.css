@@ -1734,7 +1734,8 @@ body {
   .ambient-glow,
   .report-modal-header,
   .btn-close,
-  .apple-toast {
+  .apple-toast,
+  #developer-modal {
     display: none !important;
   }
 
@@ -2093,4 +2094,553 @@ body {
   color: var(--text-tertiary);
   opacity: 0.5;
 }
+
+/* ==========================================================================
+   Forensic Developer Icon & Dossier Modal Theme
+   ========================================================================== */
+
+/* Header Developer Trigger Button */
+.btn-developer-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(180deg, rgba(32, 32, 40, 0.95) 0%, rgba(18, 18, 24, 0.95) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.btn-developer-badge:hover {
+  background: linear-gradient(180deg, rgba(40, 40, 52, 1) 0%, rgba(24, 24, 32, 1) 100%);
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 4px 18px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.developer-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #30d158;
+  box-shadow: 0 0 8px #30d158;
+  animation: pulseBeacon 2s infinite ease-in-out;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 6px #30d158;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.7;
+    box-shadow: 0 0 12px #30d158;
+  }
+}
+
+.btn-dev-label {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Footer Developer Link Button */
+.developer-footer-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.developer-footer-btn:hover {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.developer-footer-btn strong {
+  color: #ffffff;
+}
+
+.footer-dev-icon {
+  width: 14px;
+  height: 14px;
+  color: #38bdf8;
+}
+
+/* Developer Dossier Modal Dialog */
+.developer-modal-dialog {
+  width: 100%;
+  max-width: 580px;
+  background: linear-gradient(180deg, #131318 0%, #0c0c10 100%);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 25px 70px -10px rgba(0, 0, 0, 0.95), 0 0 40px -10px rgba(56, 189, 248, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  animation: modalPopIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalPopIn {
+  from {
+    transform: scale(0.96) translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Dossier Security Ribbon Header */
+.developer-modal-header {
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dossier-clearance-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #38bdf8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pulse-beacon {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+  animation: pulseBeacon 2s infinite ease-in-out;
+}
+
+/* Dossier Body */
+.developer-modal-body {
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Hero Identity Card */
+.developer-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.developer-hero-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, #38bdf8 0%, #30d158 100%);
+}
+
+.developer-avatar-container {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+.developer-avatar-halo {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #38bdf8, #30d158, #2997ff, #38bdf8);
+  opacity: 0.6;
+  filter: blur(4px);
+  animation: rotateConic 8s linear infinite;
+}
+
+@keyframes rotateConic {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.developer-avatar-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #0d0d12;
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38bdf8;
+  overflow: hidden;
+}
+
+.forensic-biometric-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.reticle-spin {
+  transform-origin: 40px 40px;
+  animation: reticleSpin 18s linear infinite;
+}
+
+@keyframes reticleSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.developer-online-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background: #0a0a0d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.online-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #30d158;
+  box-shadow: 0 0 6px #30d158;
+}
+
+.developer-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.developer-handle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.mini-chip-icon {
+  width: 11px;
+  height: 11px;
+}
+
+.developer-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.developer-degree-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(48, 209, 88, 0.12);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+  color: #30d158;
+  font-size: 0.82rem;
+}
+
+.degree-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.developer-role-desc {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Forensic Credential Matrix */
+.forensic-matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.matrix-cell {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.matrix-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.matrix-value {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #ededed;
+  line-height: 1.35;
+}
+
+/* Connection Actions Group */
+.developer-actions-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Primary LinkedIn Button */
+.btn-linkedin-connect {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 20px rgba(10, 102, 194, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-linkedin-connect:hover {
+  background: linear-gradient(135deg, #0077b5 0%, #00509d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(10, 102, 194, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.linkedin-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0a66c2;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.linkedin-svg {
+  width: 22px;
+  height: 22px;
+}
+
+.linkedin-btn-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.linkedin-btn-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.verified-check {
+  font-size: 0.72rem;
+  background: #30d158;
+  color: #000000;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.linkedin-btn-subtitle {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-mono);
+}
+
+.external-arrow-svg {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: transform 0.2s ease;
+}
+
+.btn-linkedin-connect:hover .external-arrow-svg {
+  transform: translate(2px, -2px);
+  color: #ffffff;
+}
+
+/* Secondary Actions (Copy Link & GitHub) */
+.developer-sub-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn-sub-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.btn-sub-action:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+.sub-icon-svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Dossier Footer */
+.developer-modal-footer {
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dossier-crypto-sign {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.crypto-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #30d158;
+}
+
+.btn-dismiss-dev {
+  font-size: 0.78rem;
+  padding: 7px 14px;
+  cursor: pointer;
+}
+
+/* Responsive Rules for Developer Modal */
+@media (max-width: 580px) {
+  .developer-modal-dialog {
+    max-width: 95vw;
+    margin: 10px;
+  }
+
+  .developer-hero-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .developer-handle-pill,
+  .developer-degree-badge {
+    align-self: center;
+  }
+
+  .forensic-matrix-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .developer-sub-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .developer-modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .dossier-crypto-sign {
+    justify-content: center;
+  }
+}
+
 
